@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:practica32agendasanchezmoises/agenda_data.dart';
+import 'package:practica32agendasanchezmoises/ContactData.dart';
+import 'package:practica32agendasanchezmoises/data/AgendData.dart';
 import 'package:practica32agendasanchezmoises/data/data.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AgendaData(contacts: contactosFicticios),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,12 +18,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: Agenda(contact: contact),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const ContactData());
   }
 }

@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, no_logic_in_create_state, annotate_overrides, camel_case_types, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:practica32agendasanchezmoises/data/contacat_data.dart';
+import 'package:practica32agendasanchezmoises/data/contactos_datos.dart';
 import 'package:intl/intl.dart';
 
 class Agenda extends StatefulWidget {
@@ -18,30 +18,44 @@ class agenda_data extends State<Agenda> {
     Icons.question_mark,
     size: 50,
   );
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         backgroundColor: const Color.fromARGB(221, 24, 24, 23),
         appBar: _appbar,
-        body: _body(widget.contact, context),
+        body: SingleChildScrollView(
+          child: _body(widget.contact, context),
+        ),
       ),
     );
   }
 
   AppBar get _appbar => AppBar(
         backgroundColor: Color.fromARGB(221, 24, 24, 23),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         actions: [
           IconButton(
-              onPressed: onPressed,
+              onPressed: onFavorito,
               icon: Icon(isFavorite ? Icons.star : Icons.star_border)),
           IconButton(onPressed: onlapiz, icon: Icon(Icons.edit)),
         ],
       );
 
-  void onPressed() {
+  void onFavorito() {
     setState(() {
       isFavorite = !isFavorite;
+      widget.contact.isFavorite = isFavorite;
     });
   }
 
@@ -63,7 +77,7 @@ class agenda_data extends State<Agenda> {
                 (contacto.name != null && contacto.surname != null)
                     ? "${contacto.name} ${contacto.surname}"
                     : "",
-                style: TextStyle(fontSize: 30, color: Colors.white),
+                style: TextStyle(fontSize: 20, color: Colors.white),
               ),
             ),
             Divider(color: Colors.white),
@@ -76,7 +90,7 @@ class agenda_data extends State<Agenda> {
                 ),
                 subtitle: Text(
                   contacto.email ?? "",
-                  style: TextStyle(fontSize: 30, color: Colors.white),
+                  style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
                 trailing: Icon(
                   Icons.email,
@@ -94,7 +108,7 @@ class agenda_data extends State<Agenda> {
                 ),
                 subtitle: Text(
                   contacto.phone ?? "",
-                  style: TextStyle(fontSize: 30, color: Colors.white),
+                  style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
                 trailing: Icon(
                   Icons.phone,
@@ -118,7 +132,7 @@ class agenda_data extends State<Agenda> {
                               ? DateFormat('MM dd, yyyy')
                                   .format(contacto.birthdate!)
                               : "Fecha no disponible",
-                          style: TextStyle(fontSize: 30, color: Colors.white),
+                          style: TextStyle(fontSize: 20, color: Colors.white),
                         ),
                       ),
                     ],
@@ -137,7 +151,7 @@ class agenda_data extends State<Agenda> {
                             ? (DateTime.now().year - contacto.birthdate!.year)
                                 .toString()
                             : "Edad no disponible",
-                        style: TextStyle(fontSize: 30, color: Colors.white),
+                        style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                     ],
                   ),
@@ -197,57 +211,66 @@ class agenda_data extends State<Agenda> {
           .map((label) => label[0] + label.substring(1).toLowerCase())
           .join(', '),
     );
-
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (context) {
-        return Container(
-          height: 250,
-          padding: EdgeInsets.all(20),
-          child: Column(
-            children: [
-              TextFormField(
-                controller: controller,
-                decoration: InputDecoration(
-                  hintText: 'Ingresa la etiqueta ',
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: controller,
+                  decoration: InputDecoration(
+                    hintText: 'Ingresa la etiqueta',
+                  ),
                 ),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  List<String> labels = controller.text
-                      .split(',')
-                      .map((label) => label.trim().toLowerCase())
-                      .toList();
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    List<String> labels = controller.text
+                        .split(',')
+                        .map((label) => label.trim().toLowerCase())
+                        .toList();
 
-                  setState(() {
-                    contacto.labels = labels;
-                    if (labels.isNotEmpty) {
-                      switch (labels[0]) {
-                        case "trabajo":
-                          iconolabel = Icon(Icons.work, color: Colors.black);
-                          break;
-                        case "casa":
-                          iconolabel = Icon(Icons.house, color: Colors.black);
-                          break;
-                        case "gym":
-                          iconolabel = Icon(Icons.sports_gymnastics,
-                              color: Colors.black);
-                          break;
-                        default:
-                          iconolabel =
-                              Icon(Icons.question_mark, color: Colors.black);
-                      }
-                    }
+                    setState(() {
+                      contacto.labels = labels;
+                      iconolabel = Icon(getIconoPorEtiqueta(labels),
+                          color: Colors.black);
+                    });
+
                     Navigator.pop(context);
-                  });
-                },
-                child: Text('Aplicar'),
-              ),
-            ],
+                  },
+                  child: Text('Aplicar'),
+                ),
+              ],
+            ),
           ),
         );
       },
     );
+  }
+
+  static IconData getIconoPorEtiqueta(List<String> labels) {
+    if (labels.isNotEmpty) {
+      switch (labels[0].toLowerCase()) {
+        case "trabajo":
+          return Icons.business;
+        case "amistad":
+          return Icons.emoji_emotions;
+        case "gym":
+          return Icons.fitness_center;
+        case "familia":
+          return Icons.family_restroom;
+        default:
+          return Icons.question_mark;
+      }
+    }
+    return Icons.question_mark;
   }
 }

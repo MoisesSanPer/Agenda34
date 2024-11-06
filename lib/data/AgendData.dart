@@ -1,14 +1,16 @@
 // ignore_for_file: unnecessary_this
 
-import 'package:practica32agendasanchezmoises/data/contacat_data.dart';
+import 'package:flutter/material.dart';
+import 'package:practica32agendasanchezmoises/data/contactos_datos.dart';
 
-class AgendaData {
+class AgendaData extends ChangeNotifier {
   // Campo
   List<Contactos> contacts;
 
   // Constructor por defecto
   AgendaData({List<Contactos>? contacts}) : contacts = contacts ?? [];
 
+  List<Contactos> get publicContactos => contacts;
   // Constructor factory fromJson()
   factory AgendaData.fromJson(Map<String, dynamic> json) {
     return AgendaData(

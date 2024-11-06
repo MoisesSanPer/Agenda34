@@ -1,6 +1,8 @@
 // ignore_for_file: unnecessary_this
 
-class Contactos {
+import 'package:flutter/material.dart';
+
+class Contactos extends ChangeNotifier {
   final int id;
   String? name, surname, email, phone;
   DateTime? birthdate;
