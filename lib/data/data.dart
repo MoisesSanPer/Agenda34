@@ -1,14 +1,5 @@
-import 'package:practica32agendasanchezmoises/data/AgendData.dart';
-import 'package:practica32agendasanchezmoises/data/contactos_datos.dart';
+import 'package:practica32agendasanchezmoises/data/ContactData.class.dart';
 
-Contactos contact = Contactos(
-  id: 1,
-  name: "Moises",
-  surname: "Sanchez",
-  email: "moisesprueba@gmail.com",
-  phone: "7686-43213",
-  birthdate: DateTime(1996, 7, 19),
-);
 List<Contactos> contactosFicticios = [
   Contactos(
       id: 1,

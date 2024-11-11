@@ -1,18 +1,20 @@
 // ignore_for_file: prefer_const_constructors, no_logic_in_create_state, annotate_overrides, camel_case_types, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:practica32agendasanchezmoises/data/contactos_datos.dart';
+import 'package:practica32agendasanchezmoises/data/ContactData.class.dart';
 import 'package:intl/intl.dart';
+import 'package:practica32agendasanchezmoises/data/data.dart';
+import 'package:practica32agendasanchezmoises/functions.dart';
 
-class Agenda extends StatefulWidget {
+class ContactDetailPage extends StatefulWidget {
   final Contactos contact;
-  const Agenda({super.key, required this.contact});
+  const ContactDetailPage({super.key, required this.contact});
 
   @override
-  State<Agenda> createState() => agenda_data();
+  State<ContactDetailPage> createState() => agenda_data();
 }
 
-class agenda_data extends State<Agenda> {
+class agenda_data extends State<ContactDetailPage> {
   bool isFavorite = false;
   Icon iconolabel = Icon(
     Icons.question_mark,
@@ -48,7 +50,11 @@ class agenda_data extends State<Agenda> {
           IconButton(
               onPressed: onFavorito,
               icon: Icon(isFavorite ? Icons.star : Icons.star_border)),
-          IconButton(onPressed: onlapiz, icon: Icon(Icons.edit)),
+          IconButton(
+              onPressed: () {
+                onEditContact(context, widget.contact, widget.contact.id);
+              },
+              icon: Icon(Icons.edit)),
         ],
       );
 

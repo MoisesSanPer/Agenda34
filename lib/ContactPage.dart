@@ -2,19 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:practica32agendasanchezmoises/agenda_data.dart';
-import 'package:practica32agendasanchezmoises/data/AgendData.dart';
-import 'package:practica32agendasanchezmoises/data/contactos_datos.dart';
+import 'package:practica32agendasanchezmoises/ContactDetailPage.dart';
+import 'package:practica32agendasanchezmoises/data/AgendData.class.dart';
+import 'package:practica32agendasanchezmoises/data/ContactData.class.dart';
+import 'package:practica32agendasanchezmoises/functions.dart';
 import 'package:provider/provider.dart';
 
-class ContactData extends StatefulWidget {
-  const ContactData({super.key});
+class ContactPage extends StatefulWidget {
+  const ContactPage({super.key});
 
   @override
-  State<ContactData> createState() => _ContactDataState();
+  State<ContactPage> createState() => _ContactPageState();
 }
 
-class _ContactDataState extends State<ContactData> {
+class _ContactPageState extends State<ContactPage> {
   bool isAscending = true;
 
   @override
@@ -27,7 +28,9 @@ class _ContactDataState extends State<ContactData> {
         body: _body,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            onCreateContact(context);
+          },
           child: Icon(Icons.add),
         ),
         bottomNavigationBar: _tabBar,
@@ -107,13 +110,16 @@ class _ContactDataState extends State<ContactData> {
                     value: "ver",
                     child: Text('Ver'),
                   ),
-                  PopupMenuItem(child: Text('Editar')),
+                  PopupMenuItem(value: "editar", child: Text('Editar')),
                   PopupMenuItem(child: Text('Eliminar')),
                 ],
                 onSelected: (value) {
                   switch (value) {
                     case 'ver':
                       verContacto(context, contacts[index]);
+                      break;
+                    case 'editar':
+                      onEditContact(context, contacts[index], index);
                       break;
                   }
                 },
@@ -173,7 +179,7 @@ class _ContactDataState extends State<ContactData> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => Agenda(contact: contact),
+        builder: (context) => ContactDetailPage(contact: contact),
       ),
     );
   }

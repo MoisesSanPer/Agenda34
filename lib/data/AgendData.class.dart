@@ -1,7 +1,7 @@
 // ignore_for_file: unnecessary_this
 
 import 'package:flutter/material.dart';
-import 'package:practica32agendasanchezmoises/data/contactos_datos.dart';
+import 'package:practica32agendasanchezmoises/data/ContactData.class.dart';
 
 class AgendaData extends ChangeNotifier {
   // Campo
@@ -11,6 +11,17 @@ class AgendaData extends ChangeNotifier {
   AgendaData({List<Contactos>? contacts}) : contacts = contacts ?? [];
 
   List<Contactos> get publicContactos => contacts;
+
+  void addContact(Contactos newContact) {
+    publicContactos.add(newContact);
+    notifyListeners();
+  }
+
+  void updateContact(Contactos oldContact, Contactos newContact, int index) {
+    publicContactos[index] = newContact;
+    notifyListeners();
+  }
+
   // Constructor factory fromJson()
   factory AgendaData.fromJson(Map<String, dynamic> json) {
     return AgendaData(
