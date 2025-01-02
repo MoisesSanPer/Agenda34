@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "729183180340",
+    "project_id": "agenda-b5abc",
+    "storage_bucket": "agenda-b5abc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729183180340:android:685da9667cbf07f0145c61",
+        "android_client_info": {
+          "package_name": "com.example.practica32agendasanchezmoises"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgrbRUTnxMxzaCNpcv-h7ss_bcnjlVO-Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
